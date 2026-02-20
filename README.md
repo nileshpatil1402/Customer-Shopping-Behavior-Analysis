@@ -1,168 +1,54 @@
-Customer Shopping Behavior Analysis
-📊 End-to-End Data Analytics Project (Python + SQL + Power BI)
-Created by Nilesh Patil
+📊 Customer Shopping Behavior Analysis
+End-to-End Data Analytics Project | Python • SQL • Power BI
+This project analyzes transactional data from 3,900 purchases to uncover deep insights into customer spending patterns, demographics, and subscription behavior. The final goal is to provide data-driven recommendations for strategic business growth.
 ________________________________________
 📌 Project Overview
-This project analyzes 3,900 customer transactions to uncover patterns in:
-•	Customer demographics
-•	Spending behavior
-•	Product preferences
-•	Subscription trends
-•	Revenue distribution
-The goal is to generate data-driven business insights that help improve revenue, customer engagement, and strategic decision-making.
+The analysis tracks the customer journey from raw data to actionable business intelligence:
+•	Demographics: Analysis by Age, Gender, and Location.
+•	Product Performance: Revenue and popularity across categories like Clothing, Accessories, Footwear, and Outerwear.
+•	Behavioral Trends: Impact of discounts, shipping types, and subscription status on total revenue.
+________________________________________
+🛠️ Tech Stack & Tools
+•	Python: Data cleaning, feature engineering, and ETL.
+•	PostgreSQL: Relational database storage and advanced business querying.
+•	Power BI: Interactive dashboarding and KPI visualization.
 ________________________________________
 📂 Dataset Summary
-•	Total Records: 3,900
-•	Total Columns: 18
-•	Missing Values: 37 (Review Rating column)
-🔎 Key Features
-Customer Information
-•	Customer ID
-•	Age
-•	Gender
-•	Location
-•	Subscription Status
-Purchase Details
-•	Item Purchased
-•	Category
-•	Purchase Amount (USD)
-•	Season
-•	Size
-•	Color
-Behavioral Data
-•	Discount Applied
-•	Promo Code Used
-•	Previous Purchases
-•	Frequency of Purchases
-•	Review Rating
-•	Shipping Type
+•	Total Records: 3,900 purchases.
+•	Features: 18 columns including Customer ID, Age, Item Purchased, Purchase Amount, Review Rating, and Subscription Status.
+•	Data Integrity: Handled 37 missing values in the Review Rating column using category-wise median imputation.
 ________________________________________
-🧹 Data Cleaning & Preprocessing (Python)
-✔️ Data Inspection
-df.head()
-df.info()
-df.describe(include='all')
-df.isnull().sum()
-✔️ Handling Missing Values
-Filled missing values in Review Rating using category-wise median:
-df['Review Rating'] = df.groupby('Category')['Review Rating'] \
-    .transform(lambda x: x.fillna(x.median()))
-✔️ Column Cleaning
-•	Converted column names to lowercase
-•	Replaced spaces with underscores
-•	Made SQL-friendly
-✔️ Feature Engineering
-1️⃣ Age Segmentation
-labels = ['young_adult','adult','middle_aged','senior']
-df['age_group'] = pd.cut(df['age'], bins=4, labels=labels)
-2️⃣ Purchase Frequency Mapping
-Converted categorical frequency into numeric days.
+⚙️ Data Pipeline (Python & SQL)
+1. Data Cleaning & Feature Engineering
+•	Normalization: Converted column names to lowercase and replaced spaces with underscores for SQL compatibility.
+•	Age Segmentation: Created groups: young_adult, adult, middle_aged, and senior.
+•	Frequency Mapping: Converted categorical purchase frequencies (e.g., "Fortnightly") into numeric days (e.g., 14) for quantitative analysis.
+•	Redundancy Removal: Dropped promo_code_used after confirming it was identical to discount_applied.
+2. Database Integration
+Connected Python to PostgreSQL using sqlalchemy and uploaded the cleaned dataset for structured analysis.
+3. Key SQL Analysis
+•	Revenue by Gender: Identified that Male customers contribute higher total revenue ($157,890) compared to Female customers ($75,191).
+•	High-Value Discount Users: Identified top 20 customers who use discounts but still spend above the average purchase amount.
+•	Product Performance: Determined that Gloves (3.86) and Sandals (3.84) hold the highest average review ratings.
 ________________________________________
-✔️ Removing Redundant Columns
-Confirmed promo_code_used was identical to discount_applied:
-(df['discount_applied'] == df['promo_code_used']).all()
-Removed duplicate column.
+📊 Power BI Dashboard Highlights
+The interactive dashboard provides a visual narrative of the business.
+Business KPIs
+•	Total Customers: 3.9K.
+•	Avg. Purchase Amount: $59.76.
+•	Avg. Review Rating: 3.75/5.
+Visual Insights
+•	Category Dominance: Clothing is the primary revenue driver (~$100K+), while Outerwear is the lowest (~$15K+).
+•	Subscription Gap: Only 27% of customers are currently subscribers, representing a significant growth opportunity.
+•	Core Demographic: Young Adults are the most active buyers and contribute the highest revenue segment (~$60K+).
 ________________________________________
-✔️ Export Cleaned Dataset
-df.to_csv("customer_behavior.csv", index=False)
+💡 Strategic Recommendations
+1.	Subscription Growth: Promote loyalty programs to the 73% non-subscriber base to increase recurring revenue.
+2.	Targeted Marketing: Focus campaigns on the Young Adult and Middle-Aged segments, as they show the highest engagement.
+3.	Category Strategy: Implement promotional discounts for the Outerwear category to improve its market performance.
+4.	Retention: Establish loyalty programs specifically targeting "Loyal" customers (those with >5 previous purchases).
 ________________________________________
-🗄️ Database Integration (PostgreSQL)
-Connected Python to PostgreSQL using:
-pip install psycopg2-binary sqlalchemy
-Uploaded cleaned dataset into database table:
-df.to_sql('customer', engine, if_exists='replace', index=False)
-________________________________________
-🧮 SQL Business Analysis
-Performed structured analysis to answer key business questions.
-________________________________________
-📊 Revenue Analysis
-Q1: Revenue by Gender
-Q2: Revenue by Age Group
-________________________________________
-💰 Discount & Pricing Insights
-Q3: Top 20 customers using discount but spending above average
-Q4: Products with highest discount usage %
-________________________________________
-🛒 Product Performance
-Q5: Top 5 products with highest average review rating
-Q6: Top 3 most purchased products per category
-________________________________________
-🚚 Shipping & Purchase Behavior
-Q7: Average purchase comparison (Standard vs Express shipping)
-________________________________________
-💳 Subscription & Customer Value
-Q8: Do subscribed customers spend more?
-Q9: Are repeat buyers more likely to subscribe?
-________________________________________
-👥 Customer Segmentation
-Segmented customers into:
-•	🆕 New (0 purchases)
-•	🔁 Returning (1–5 purchases)
-•	⭐ Loyal (>5 purchases)
-________________________________________
-📈 Power BI Dashboard
-Built an interactive dashboard showing:
-🔹 KPI Overview
-•	Total Customers: 3.9K
-•	Avg Purchase Amount: $59.76
-•	Avg Review Rating: 3.75
-________________________________________
-🔹 Revenue by Category
-•	Clothing – Highest Revenue (~100K+)
-•	Accessories – Second
-•	Footwear – Moderate
-•	Outerwear – Lowest
-________________________________________
-🔹 Sales & Revenue by Age Group
-•	Young Adults – Highest contribution
-•	Middle Aged – Strong segment
-•	Seniors – Slightly lower
-________________________________________
-🔹 Subscription Insights
-•	73% Non-Subscribers
-•	27% Subscribers
-________________________________________
-🔹 Interactive Filters
-•	Subscription Status
-•	Gender
-•	Category
-•	Shipping Type
-________________________________________
-💡 Key Business Insights
-•	Clothing dominates both revenue and customer base.
-•	Young Adults are the most valuable segment.
-•	Subscription penetration is low (27%).
-•	Outerwear category needs promotional strategy.
-•	Customer rating suggests improvement opportunity.
-________________________________________
-🚀 Business Recommendations
-✔ Promote subscription programs
-✔ Improve product quality for better ratings
-✔ Target young & middle-aged segments
-✔ Offer category-based discounts
-✔ Create loyalty programs for repeat buyers
-________________________________________
-🛠️ Tools & Technologies Used
-•	🐍 Python (Pandas, NumPy)
-•	🗄 PostgreSQL
-•	🧮 SQL
-•       📊 Power BI
-•       📁 CSV Data Processing
-________________________________________
-📌 Project Workflow
-1.	Data Collection
-2.	Data Cleaning (Python)
-3.	Feature Engineering
-4.	Database Upload
-5.	SQL Business Analysis
-6.	Dashboard Visualization
-7.	Business Insights & Recommendations
-________________________________________
-🎯 Conclusion
-This project demonstrates:
-•	End-to-end data analytics pipeline
-•	Business-focused SQL analysis
-•	Dashboard storytelling
-•	Practical customer segmentation
-It highlights how data-driven decisions can increase revenue and improve customer engagement.
+🚀 Conclusion
+This end-to-end project demonstrates how data cleaning and integrated analysis can identify high-value customer segments and product opportunities. By optimizing the subscription model and focusing on top-performing categories, the business can significantly enhance customer engagement and total revenue.
+Created by: Nilesh Patil 
 
