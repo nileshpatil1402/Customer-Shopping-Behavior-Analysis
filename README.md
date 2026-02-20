@@ -1,75 +1,168 @@
-# Customer-Shopping-Behavior-Analysis
-Customer Shopping Behavior Analysis project using Python, SQL, and Power BI. The dataset includes 3,900 transactions focused on customer segmentation, revenue trends, discount impact, subscription behavior, and product performance. It demonstrates data cleaning, SQL analysis, database integration, and dashboard creation for business insights.
-
-Skills Demonstrated in This Project 
-🔹 Technical Skills
-  🔹 Data Cleaning & Preprocessing using Python
-  🔹 Handling Missing Values using statistical techniques
-  🔹 Feature Engineering (Age Segmentation, Frequency Mapping)
-  🔹 Writing Advanced SQL Queries (GROUP BY, CASE, Subqueries, Window Functions)
-  🔹 Database Integration using SQLAlchemy
-  🔹 Data Visualization using Power BI
-  🔹 Dashboard Development with Interactive Filters
-  🔹 Business KPI Development
-  🔹 Data Export & File Handling
-
-🔹 SQL Concepts Applied
-  🔹 Aggregation Functions (SUM, AVG, COUNT)
-  🔹 Subqueries
-  🔹 CASE Statements
-  🔹 Window Functions (ROW_NUMBER)
-  🔹 Filtering & Conditional Logic
-  🔹 Customer Segmentation Queries
-  🔹 Revenue Analysis Queries
-
-🔹 Python Concepts Applied
-  🔹 Pandas DataFrame Operations
-  🔹 GroupBy & Transform Functions
-  🔹 Lambda Functions
-  🔹 Data Cleaning Techniques
-  🔹 Column Standardization
-  🔹 Mapping Categorical to Numerical Values
-  🔹 CSV Export & File Handling
-
-🔹 Business Understanding Skills
-  🔹 Revenue Analysis
-  🔹 Customer Segmentation
-  🔹 Subscription Behavior Analysis
-  🔹 Discount Impact Analysis
-  🔹 Product Performance Evaluation
-  🔹 Customer Retention Strategy Insights
-
-🔹 Analytical Thinking Skills
-  🔹 Identifying trends from raw data
-  🔹 Converting business questions into SQL queries
-  🔹 Transforming data into actionable insights
-  🔹 Data-driven decision-making approach
-  🔹 Structured problem-solving
-
-💼 Why This Project Shows My Capability 
-  🔹 Built an end-to-end data analytics project
-  🔹 Worked with real-world structured dataset
-  🔹 Integrated Python + SQL + Power BI
-  🔹 Applied business logic to technical analysis
-  🔹 Created dashboard for decision-making
-  🔹 Demonstrated database connectivity skills
-  🔹 Managed full data pipeline from raw data to visualization
-
-🎯 Core Competencies
-  🔹 Data Analysis
-  🔹 Business Intelligence
-  🔹 SQL Development
-  🔹 Data Cleaning
-  🔹 Data Visualization
-  🔹 Customer Analytics
-  🔹 Problem Solving
-
-🔹 What I Did in This Project.
-  🔹 Cleaned and prepared raw customer shopping data using Python
-  🔹 Handled missing values and performed feature engineering
-  🔹 Connected Python with PostgreSQL and uploaded structured data
-  🔹 Wrote SQL queries to analyze revenue, customer behavior, and product performance
-  🔹 Performed customer segmentation (New, Returning, Loyal)
-  🔹 Built an interactive Power BI dashboard to visualize insights
-  🔹 Generated business recommendations based on data analysis
+Customer Shopping Behavior Analysis
+📊 End-to-End Data Analytics Project (Python + SQL + Power BI)
+Created by Nilesh Patil
+________________________________________
+📌 Project Overview
+This project analyzes 3,900 customer transactions to uncover patterns in:
+•	Customer demographics
+•	Spending behavior
+•	Product preferences
+•	Subscription trends
+•	Revenue distribution
+The goal is to generate data-driven business insights that help improve revenue, customer engagement, and strategic decision-making.
+________________________________________
+📂 Dataset Summary
+•	Total Records: 3,900
+•	Total Columns: 18
+•	Missing Values: 37 (Review Rating column)
+🔎 Key Features
+Customer Information
+•	Customer ID
+•	Age
+•	Gender
+•	Location
+•	Subscription Status
+Purchase Details
+•	Item Purchased
+•	Category
+•	Purchase Amount (USD)
+•	Season
+•	Size
+•	Color
+Behavioral Data
+•	Discount Applied
+•	Promo Code Used
+•	Previous Purchases
+•	Frequency of Purchases
+•	Review Rating
+•	Shipping Type
+________________________________________
+🧹 Data Cleaning & Preprocessing (Python)
+✔️ Data Inspection
+df.head()
+df.info()
+df.describe(include='all')
+df.isnull().sum()
+✔️ Handling Missing Values
+Filled missing values in Review Rating using category-wise median:
+df['Review Rating'] = df.groupby('Category')['Review Rating'] \
+    .transform(lambda x: x.fillna(x.median()))
+✔️ Column Cleaning
+•	Converted column names to lowercase
+•	Replaced spaces with underscores
+•	Made SQL-friendly
+✔️ Feature Engineering
+1️⃣ Age Segmentation
+labels = ['young_adult','adult','middle_aged','senior']
+df['age_group'] = pd.cut(df['age'], bins=4, labels=labels)
+2️⃣ Purchase Frequency Mapping
+Converted categorical frequency into numeric days.
+________________________________________
+✔️ Removing Redundant Columns
+Confirmed promo_code_used was identical to discount_applied:
+(df['discount_applied'] == df['promo_code_used']).all()
+Removed duplicate column.
+________________________________________
+✔️ Export Cleaned Dataset
+df.to_csv("customer_behavior.csv", index=False)
+________________________________________
+🗄️ Database Integration (PostgreSQL)
+Connected Python to PostgreSQL using:
+pip install psycopg2-binary sqlalchemy
+Uploaded cleaned dataset into database table:
+df.to_sql('customer', engine, if_exists='replace', index=False)
+________________________________________
+🧮 SQL Business Analysis
+Performed structured analysis to answer key business questions.
+________________________________________
+📊 Revenue Analysis
+Q1: Revenue by Gender
+Q2: Revenue by Age Group
+________________________________________
+💰 Discount & Pricing Insights
+Q3: Top 20 customers using discount but spending above average
+Q4: Products with highest discount usage %
+________________________________________
+🛒 Product Performance
+Q5: Top 5 products with highest average review rating
+Q6: Top 3 most purchased products per category
+________________________________________
+🚚 Shipping & Purchase Behavior
+Q7: Average purchase comparison (Standard vs Express shipping)
+________________________________________
+💳 Subscription & Customer Value
+Q8: Do subscribed customers spend more?
+Q9: Are repeat buyers more likely to subscribe?
+________________________________________
+👥 Customer Segmentation
+Segmented customers into:
+•	🆕 New (0 purchases)
+•	🔁 Returning (1–5 purchases)
+•	⭐ Loyal (>5 purchases)
+________________________________________
+📈 Power BI Dashboard
+Built an interactive dashboard showing:
+🔹 KPI Overview
+•	Total Customers: 3.9K
+•	Avg Purchase Amount: $59.76
+•	Avg Review Rating: 3.75
+________________________________________
+🔹 Revenue by Category
+•	Clothing – Highest Revenue (~100K+)
+•	Accessories – Second
+•	Footwear – Moderate
+•	Outerwear – Lowest
+________________________________________
+🔹 Sales & Revenue by Age Group
+•	Young Adults – Highest contribution
+•	Middle Aged – Strong segment
+•	Seniors – Slightly lower
+________________________________________
+🔹 Subscription Insights
+•	73% Non-Subscribers
+•	27% Subscribers
+________________________________________
+🔹 Interactive Filters
+•	Subscription Status
+•	Gender
+•	Category
+•	Shipping Type
+________________________________________
+💡 Key Business Insights
+•	Clothing dominates both revenue and customer base.
+•	Young Adults are the most valuable segment.
+•	Subscription penetration is low (27%).
+•	Outerwear category needs promotional strategy.
+•	Customer rating suggests improvement opportunity.
+________________________________________
+🚀 Business Recommendations
+✔ Promote subscription programs
+✔ Improve product quality for better ratings
+✔ Target young & middle-aged segments
+✔ Offer category-based discounts
+✔ Create loyalty programs for repeat buyers
+________________________________________
+🛠️ Tools & Technologies Used
+•	🐍 Python (Pandas, NumPy)
+•	🗄 PostgreSQL
+•	🧮 SQL
+•       📊 Power BI
+•       📁 CSV Data Processing
+________________________________________
+📌 Project Workflow
+1.	Data Collection
+2.	Data Cleaning (Python)
+3.	Feature Engineering
+4.	Database Upload
+5.	SQL Business Analysis
+6.	Dashboard Visualization
+7.	Business Insights & Recommendations
+________________________________________
+🎯 Conclusion
+This project demonstrates:
+•	End-to-end data analytics pipeline
+•	Business-focused SQL analysis
+•	Dashboard storytelling
+•	Practical customer segmentation
+It highlights how data-driven decisions can increase revenue and improve customer engagement.
 
